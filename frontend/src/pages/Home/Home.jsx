@@ -4,6 +4,7 @@ import HeroImg from '../../assets/hero.png';
 import oceanLand from '../../assets/oceanLand.png';
 import Cards from '../../components/Card/Card';
 import { CitiesIcon, TravelerIcon, TreasureIcon } from '../../components/Icons';
+import PropTypes from 'prop-types'
 
 const { Content } = Layout;
 
@@ -12,8 +13,8 @@ const { Title, Paragraph, Text } = Typography;
 function HomePage() {
   return (
     <Content style={{ padding: '0 150px' }}>
-      <Hero />
-      <MostPicked />
+      <HeroComponent />
+      <MostPickedComponent />
       <PlaceComponent heading='Houses with backyard' />
       <PlaceComponent heading='Hotels with large living room' />
       <PlaceComponent heading='Apartments with kitchen set' />
@@ -21,7 +22,7 @@ function HomePage() {
   );
 }
 
-function Hero() {
+function HeroComponent() {
   const paragraphStyle = {
     lineHeight: '170%',
     color: '#B0B0B0',
@@ -103,7 +104,7 @@ function Hero() {
   );
 }
 
-function MostPicked() {
+function MostPickedComponent() {
   const colData = [
     [
       {
@@ -131,28 +132,44 @@ function MostPicked() {
     ],
   ];
 
+  const textStyle = {
+    color: 'white',
+    cursor: 'pointer',
+  };
+  const containerText = { position: 'absolute', bottom: 24, left: 24 };
+
+  function textComponent(title, description) {
+    return (
+    <Space direction='vertical' size={0} style={containerText}>
+      <Text style={textStyle}>{title}</Text>
+      <Text style={{ fontWeight: 300, ...textStyle }}>{description}</Text>
+    </Space>)
+  }
+
   return (
     <div style={{ marginBottom: 70 }}>
-      <Title level={3} style={{ marginBottom: '20px' }}>Houses with beauty backyard</Title>
+      <Title level={3} style={{ marginBottom: '20px' }}>
+        Houses with beauty backyard
+      </Title>
       <Row gutter={[30, 30]}>
         <Col flex={1} style={{ display: 'grid', gap: 30 }}>
-          <Cards>
+          <Card hoverable={true} bordered={false}>
             <div style={{ display: 'flex' }}>
               <Image preview={false} width='100%' height='460px' src={blueOrigin} />
             </div>
-            <Card.Meta title='Blue Origin Fams' description='Jakarta, Indonesia' style={{ position: 'absolute', bottom: 24, left: 24 }} />
-          </Cards>
+            {textComponent('Blue Origin', 'Jakarta, Indonesia')}
+          </Card>
         </Col>
         {colData.map((_, colIndex) => (
           <Col key={colIndex} flex={1} style={{ display: 'grid', gap: 30 }}>
             {colData[colIndex].map((card, cardIndex) => {
               return (
-                <Cards key={cardIndex}>
+                <Card key={cardIndex} bordered={false} hoverable={true} style={{ borderRadius: 15, overflow: 'hidden' }}>
                   <div style={{ display: 'flex' }}>
                     <Image preview={false} width='100%' height='215px' src={card.src} />
                   </div>
-                  <Card.Meta title={card.title} description={card.description} style={{ position: 'absolute', bottom: 24, left: 24 }} />
-                </Cards>
+                  {textComponent(card.title, card.description)}
+                </Card>
               );
             })}
           </Col>
@@ -162,7 +179,7 @@ function MostPicked() {
   );
 }
 
-function PlaceComponent({heading}) {
+function PlaceComponent({ heading }) {
   const cardData = [
     {
       src: oceanLand,
@@ -187,44 +204,30 @@ function PlaceComponent({heading}) {
     },
   ];
 
-  function badge() {
-    const styleText = {
-      lineHeight: '170%',
-      color: 'white',
-    };
-
-    return (
-      <div style={{ position: 'absolute', top: 0, right: 0, borderRadius: '0 15px 0 15px', background: '#B0B0B0' }}>
-        <Paragraph style={{ margin: '7px 14px' }}>
-          <Text style={styleText}>Popular</Text>
-          &nbsp;
-          <Text style={{ ...styleText, fontWeight: 300 }}>Choices</Text>
-        </Paragraph>
-      </div>
-    );
-  }
-
   return (
     <div style={{ marginBottom: 70 }}>
-      <Title level={3} style={{ marginBottom: '20px' }}>{heading}</Title>
+      <Title level={3} style={{ marginBottom: '20px' }}>
+        {heading}
+      </Title>
       <Row gutter={[30, 30]}>
         {cardData.map((card, cardIndex) => (
           <Col key={cardIndex} span={6}>
-            <Cards key={cardIndex} style={{ borderRadius: '0' }} hoverable={false} cover={<div style={{ display: 'flex' }}>
-                <Image preview={false} width='100%' height='180px' src={card.src} />
-              </div>}>
-              
-              {card?.popular && badge()}
-            </Cards>
-            <Space direction='vertical' size={0} style={{ marginTop: 16 }}>
-              <Text style={{ cursor: 'pointer' }}>{card.title}</Text>
-              <Text style={{ fontWeight: 300, color: '#B0B0B0', cursor: 'pointer' }}>{card.description}</Text>
-            </Space>
+            <Cards img={card?.src} title={card.title} description={card.description} popular={card.popular} />
           </Col>
         ))}
       </Row>
     </div>
   );
 }
+
+PlaceComponent.propTypes = {
+  heading: PropTypes.string
+}
+
+PlaceComponent.defaultProps = {
+  heading: ''
+}
+
+
 
 export default HomePage;
