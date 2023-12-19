@@ -12,7 +12,13 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         token: {
           fontFamily: 'Roboto',
           colorText: '#152C5B',
-          fontSizeHeading1: '42px',
+          linkDecoration: 'rgba(176, 176, 176, 1)',
+          linkHoverDecoration: 'rgba(176, 176, 176, 0.5)',
+          fontSizeHeading1: '2.625rem',
+          fontSizeHeading3: '1.625rem',
+          fontSizeHeading5: '1.125rem',
+          fontSize:'1rem',
+          colorSplit:'rgba(0, 0, 0, 0.1)',
         },
         components: {
           Layout: {
@@ -24,9 +30,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             titleMarginTop: 0,
             titleMarginBottom: 0,
           },
-          Card:{
-            actionsLiMargin:0
-          }
+          Card: {
+            actionsLiMargin: 0,
+          },
         },
       }}
     >

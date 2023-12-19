@@ -3,6 +3,7 @@
 :root {
   font-family: Roboto, sans-serif;
   box-sizing: border-box;
+  font-size: 16px;
 }
 
 html,
@@ -14,3 +15,28 @@ body {
 .ant-card *{
   padding: 0 !important;
 }
+
+
+ul, li{
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+@media only screen and (max-width: 90em) {
+  :root {
+    font-size: calc(100vw * 16 / 1440);
+  }
+}
+
+/* @media screen and (max-width: 600px) {
+  :root {
+    --base-font-size: 14px;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  :root {
+    --base-font-size: 18px;
+  }
+} */

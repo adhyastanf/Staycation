@@ -1,5 +1,6 @@
 import { Divider, Layout } from 'antd';
 import { Outlet, Route, Routes } from 'react-router-dom';
+import Footer from './components/Footer/Footer';
 import Headers from './components/Header/Header';
 import LoginForm from './components/Login';
 import RegisterForm from './components/Register';
@@ -25,6 +26,8 @@ function PageBase() {
       <Headers />
       <Divider style={{ margin: 0 }} />
       <Outlet />
+      <Divider style={{ margin: 0 }} />
+      <Footer />
     </Layout>
   );
 }

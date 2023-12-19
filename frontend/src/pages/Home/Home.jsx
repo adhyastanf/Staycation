@@ -4,7 +4,8 @@ import HeroImg from '../../assets/hero.png';
 import oceanLand from '../../assets/oceanLand.png';
 import Cards from '../../components/Card/Card';
 import { CitiesIcon, TravelerIcon, TreasureIcon } from '../../components/Icons';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
+import Story from '../../components/Story/Story';
 
 const { Content } = Layout;
 
@@ -18,6 +19,7 @@ function HomePage() {
       <PlaceComponent heading='Houses with backyard' />
       <PlaceComponent heading='Hotels with large living room' />
       <PlaceComponent heading='Apartments with kitchen set' />
+      <Story />
     </Content>
   );
 }
@@ -27,17 +29,16 @@ function HeroComponent() {
     lineHeight: '170%',
     color: '#B0B0B0',
     width: '333px',
-    fontSize: '16px',
     marginBottom: '30px',
   };
 
-  const heroImg = {
+  const heroImgStyle = {
     borderRadius: '100px 15px 15px 15px',
     position: 'relative',
     right: '39px',
   };
 
-  const borderHero = {
+  const borderHeroStyle = {
     width: '506px',
     height: '398px',
     border: '1px solid #E5E5E5',
@@ -72,7 +73,7 @@ function HeroComponent() {
   ];
 
   return (
-    <Row style={{ margin: '100px 0' }}>
+    <Row style={{ margin: '100px 0' }} >
       <Col flex={1}>
         <Title style={{ marginTop: 0, marginBottom: '30px' }}>
           Forget Busy Work,
@@ -97,8 +98,8 @@ function HeroComponent() {
         </Space>
       </Col>
       <Col flex={1} style={{ display: 'flex', position: 'relative', justifyContent: 'flex-end' }}>
-        <div style={borderHero}></div>
-        <Image width={520} src={HeroImg} preview={false} style={heroImg} />
+        <div style={borderHeroStyle}></div>
+        <Image width={520} src={HeroImg} preview={false} style={heroImgStyle} />
       </Col>
     </Row>
   );
@@ -140,10 +141,11 @@ function MostPickedComponent() {
 
   function textComponent(title, description) {
     return (
-    <Space direction='vertical' size={0} style={containerText}>
-      <Text style={textStyle}>{title}</Text>
-      <Text style={{ fontWeight: 300, ...textStyle }}>{description}</Text>
-    </Space>)
+      <Space direction='vertical' size={0} style={containerText}>
+        <Text style={textStyle}>{title}</Text>
+        <Text style={{ fontWeight: 300, ...textStyle }}>{description}</Text>
+      </Space>
+    );
   }
 
   return (
@@ -221,13 +223,11 @@ function PlaceComponent({ heading }) {
 }
 
 PlaceComponent.propTypes = {
-  heading: PropTypes.string
-}
+  heading: PropTypes.string,
+};
 
 PlaceComponent.defaultProps = {
-  heading: ''
-}
-
-
+  heading: '',
+};
 
 export default HomePage;

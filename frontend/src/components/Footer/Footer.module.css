@@ -1,0 +1,8 @@
+.textStyle {
+    color: #B0B0B0;
+    font-weight: 300;
+}
+
+.textStyle:hover {
+    color: rgba(176, 176, 176, 0.5);
+}
