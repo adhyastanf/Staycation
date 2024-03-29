@@ -6,12 +6,15 @@ import Cards from '../../components/Card/Card';
 import { CitiesIcon, TravelerIcon, TreasureIcon } from '../../components/Icons';
 import PropTypes from 'prop-types';
 import Story from '../../components/Story/Story';
+import styles from './Home.module.css';
+import { useEffect } from 'react';
 
 const { Content } = Layout;
 
 const { Title, Paragraph, Text } = Typography;
 
 function HomePage() {
+
   return (
     <Content style={{ padding: '0 150px' }}>
       <HeroComponent />
@@ -73,7 +76,7 @@ function HeroComponent() {
   ];
 
   return (
-    <Row style={{ margin: '100px 0' }} >
+    <Row style={{ margin: '100px 0' }}>
       <Col flex={1}>
         <Title style={{ marginTop: 0, marginBottom: '30px' }}>
           Forget Busy Work,
@@ -149,7 +152,7 @@ function MostPickedComponent() {
   }
 
   return (
-    <div style={{ marginBottom: 70 }}>
+    <div className={styles.containerBackyard} style={{ marginBottom: 70 }}>
       <Title level={3} style={{ marginBottom: '20px' }}>
         Houses with beauty backyard
       </Title>

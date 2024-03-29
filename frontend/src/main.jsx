@@ -15,10 +15,11 @@ ReactDOM.createRoot(document.getElementById('root')).render(
           linkDecoration: 'rgba(176, 176, 176, 1)',
           linkHoverDecoration: 'rgba(176, 176, 176, 0.5)',
           fontSizeHeading1: '2.625rem',
+          fontSizeHeading2: '2.25rem',
           fontSizeHeading3: '1.625rem',
           fontSizeHeading5: '1.125rem',
-          fontSize:'1rem',
-          colorSplit:'rgba(0, 0, 0, 0.1)',
+          // fontSize: '1rem',
+          colorSplit: 'rgba(0, 0, 0, 0.1)',
         },
         components: {
           Layout: {
@@ -27,7 +28,6 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             headerPadding: '0 150px',
           },
           Typography: {
-            titleMarginTop: 0,
             titleMarginBottom: 0,
           },
           Card: {

@@ -52,6 +52,18 @@ const User = sequelize.define('User', {
       notNull: { msg: 'lastname is required' },
     },
   },
+  role: {
+    type: DataTypes.STRING, // Adjust the data type based on your needs (STRING, ENUM, etc.)
+    allowNull: false,
+    defaultValue: 'user', // Set a default role if needed
+    validate: {
+      // notNull: { msg: 'Role is required' },
+      isIn: {
+        args: [['user', 'admin']], // Set the allowed roles
+        msg: 'Invalid role',
+      },
+    },
+  },
 });
 
 export default User;

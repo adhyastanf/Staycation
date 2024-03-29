@@ -1,6 +1,6 @@
 import { Sequelize } from 'sequelize';
 
-const sequelize = new Sequelize('authentication', 'root', '', {
+const sequelize = new Sequelize('staycation', 'root', '', {
   host: 'localhost',
   dialect: 'mariadb',
 });

@@ -52,7 +52,7 @@ Cards.propTypes = {
   popular: PropTypes.bool,
   title: PropTypes.string,
   description: PropTypes.string,
-  img:PropTypes.shape
+  img:PropTypes.any
 }
 
 Cards.defaultProps = {
