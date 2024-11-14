@@ -3,21 +3,29 @@ import DetailHouse1 from '../../assets/detailHouse1.png';
 import DetailHouse2 from '../../assets/detailHouse2.png';
 import Counter from '../../components/Counter/Counter';
 import styles from './DetailHouse.module.css';
-import { useBookStore } from '../../store/BookingStore';
-import { Link } from 'react-router-dom';
+import useBookStore from '../../store/booking-store';
+import { useNavigate, useParams } from "react-router-dom";
+
+import dayjs from 'dayjs';
+import { useState } from 'react';
 
 const { Content } = Layout;
 const { Title, Paragraph } = Typography;
 
 function DetailHouse() {
-  const { stay } = useBookStore((state) => state.bookingData);
-  const increment = useBookStore((state) => state.incrementStay);
-  const decrement = useBookStore((state) => state.decrementStay);
-
+  let { productId } = useParams();
+  const [stay, setStay] = useState(1);
+  const [date, setDate] = useState(null);
   const breadcrumbItem = [{ title: 'sample' }, { title: 'sample' }, { title: 'sample' }];
+
+  const navigate = useNavigate()
 
   const titleParagraph = { fontWeight: 500, fontSize: '1.25rem', marginBottom: 14 };
   const paragraphStyle = { marginBottom: 0 };
+
+  const totalPrice = 280 * stay;
+
+  const updateBooking = useBookStore((state) => state.updateBooking); // Ambil fungsi updateBooking dari store
 
   // const listIcon = [
   //   {
@@ -37,8 +45,33 @@ function DetailHouse() {
   //   },
   // ];
 
+  const disabledDate = (current) => {
+    return current < dayjs().startOf('day');
+  };
+
   function handleDatePicker(date, dateArray) {
-    console.log(dateArray);
+    const bookingStartDate = dayjs(dateArray[0])?.$d;
+    const bookingEndDate = dayjs(dateArray[1])?.$d;
+    const date1 = dayjs(dateArray[0]);
+    const date2 = dayjs(dateArray[1]);
+    const differenceInDays = date2.diff(date1, 'day');
+    setStay(differenceInDays + 1);
+    setDate({ bookingStartDate, bookingEndDate });
+  }
+
+  function handleSubmit() {
+    updateBooking({
+      nights: stay,
+      bookingStartDate: date?.bookingStartDate,
+      bookingEndDate: date?.bookingEndDate,
+      price: totalPrice,
+      imgUrl: 'https://example.com/image.jpg',
+      city: 'Bogor',
+      country: 'Indonesia',
+      name: 'Village Angga',
+      productId
+    });
+    navigate('/checkout')
   }
 
   return (
@@ -80,20 +113,22 @@ function DetailHouse() {
             <span style={{ color: '#1ABC9C', fontWeight: 500 }}>$280</span>&nbsp;
             <span style={{ color: '#B0B0B0', fontWeight: 300 }}>per night</span>
           </Title>
-          <Space direction='vertical' size={8} style={{ marginBottom: 24 }}>
+          {/* <Space direction='vertical' size={8} style={{ marginBottom: 24 }}>
             <Paragraph style={paragraphStyle}>How long you will stay?</Paragraph>
-            <Counter minValue={stay > 0} maxValue={stay < 10} value={stay} increment={increment} decrement={decrement} />
-          </Space>
+            <Counter minValue={stay > 1} maxValue={stay < 10} value={stay} increment={increment} decrement={decrement} />
+          </Space> */}
           <Space direction='vertical' size={8} style={{ marginBottom: 14 }}>
             <Paragraph style={paragraphStyle}>Pick a Date</Paragraph>
-            <DatePicker.RangePicker style={{ padding: '4px 12px' }} onChange={handleDatePicker} />
+            <DatePicker.RangePicker style={{ padding: '4px 12px' }} onChange={handleDatePicker} disabledDate={disabledDate} />
           </Space>
-          <Paragraph style={{ marginBottom: 40 }}>You will pay $480 USD per 2 nights</Paragraph>
-          <Link to={'/booking'}>
-            <Button type='primary' block size='large'>
+          <Paragraph style={{ marginBottom: 40 }}>
+            You will pay ${totalPrice} USD per {stay || 1} nights
+          </Paragraph>
+          {/* <Link to={'/checkout'}> */}
+            <Button type='primary' block size='large' onClick={handleSubmit}>
               Continue to Book
             </Button>
-          </Link>
+          {/* </Link> */}
         </Card>
       </Flex>
     </Content>

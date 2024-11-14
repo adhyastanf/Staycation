@@ -80,11 +80,6 @@ const Hotel = sequelize.define('Hotel', {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
-  qty: {
-    type: DataTypes.INTEGER,
-    allowNull: true,
-    defaultValue: 0,
-  },
   isPopular: {
     type: DataTypes.BOOLEAN,
     allowNull: true,

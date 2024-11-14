@@ -2,7 +2,7 @@ import { DataTypes } from 'sequelize';
 import sequelize from '../db/sequelize.js';
 
 const User = sequelize.define('User', {
-  userId: {
+  id: {
     type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV4,
     allowNull: false,
@@ -38,18 +38,11 @@ const User = sequelize.define('User', {
       notNull: { msg: 'Password is required' },
     },
   },
-  firstName: {
+  fullname: {
     type: DataTypes.STRING(50),
     allowNull: false,
     validate: {
       notNull: { msg: 'firstname is required' },
-    },
-  },
-  lastName: {
-    type: DataTypes.STRING(50),
-    allowNull: false,
-    validate: {
-      notNull: { msg: 'lastname is required' },
     },
   },
   role: {

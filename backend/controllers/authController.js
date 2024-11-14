@@ -26,7 +26,7 @@ const loginUser = async (req, res) => {
       });
     }
 
-    const payload = { username, userId: user.userId };
+    const payload = { username, user_id: user.id };
 
     const accessToken = generateToken(payload);
     const refreshToken = generateRefreshToken(payload);
@@ -39,6 +39,10 @@ const loginUser = async (req, res) => {
       sameSite: 'None',
       maxAge: 24 * 60 * 60 * 1000,
     });
+    
+    // Set cookies
+    // res.cookie('accessToken', accessToken, { httpOnly: true, secure: true, sameSite: 'Strict' });
+    // res.cookie('refreshToken', refreshToken, { httpOnly: true, secure: true, sameSite: 'Strict' });
 
     return res.status(200).json({
       code: res.statusCode,
@@ -54,7 +58,7 @@ const loginUser = async (req, res) => {
 };
 
 const registerUser = async (req, res) => {
-  const { username, email, password, firstName, lastName } = req.body;
+  const { username, email, password, fullname } = req.body;
   const saltRounds = 10;
 
   try {
@@ -63,8 +67,7 @@ const registerUser = async (req, res) => {
       username,
       email,
       password: hashPassword,
-      firstName,
-      lastName,
+      fullname
     });
 
     return res.status(200).json({

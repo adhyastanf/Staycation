@@ -1,4 +1,4 @@
-import { Form, Input } from 'antd';
+import { Button, Form, Input } from 'antd';
 
 function FormBooking() {
   const formItem = [
@@ -24,11 +24,15 @@ function FormBooking() {
     <Form layout='vertical' style={{ width: '320px' }}>
       {formItem.map((item, index) => {
         return (
-          <Form.Item key={index} hasFeedback label={item.label} validateDebounce={1000} rules={[{ max: 3 }]}>
+          <Form.Item key={index} hasFeedback label={item.label}>
             <Input size='large' placeholder={item.placeholder} />
           </Form.Item>
         );
       })}
+
+      <Button type='primary' htmlType='submit'>
+        Checkout
+      </Button>
     </Form>
   );
 }

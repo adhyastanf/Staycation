@@ -16,12 +16,12 @@ function Counter(props) {
   }
 
   const buttonMinus = (
-    <Button type='primary' onClick={() => decrementCounter()}>
+    <Button type='primary' onClick={() => decrementCounter()} disabled={!minValue}>
       -
     </Button>
   );
   const buttonPlus = (
-    <Button type='primary' onClick={() => incrementCounter()}>
+    <Button type='primary' onClick={() => incrementCounter()} disabled={!maxValue}>
       +
     </Button>
   );

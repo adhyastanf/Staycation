@@ -3,7 +3,7 @@ import cors from 'cors';
 import 'dotenv/config';
 import express, { urlencoded } from 'express';
 import userRouter from './router/authRouter.js';
-import bankRouter from './router/bankRouter.js';
+import TransactionRouter from './router/transactionRouter.js';
 import categoryAdminRouter from './router/categoryAdminController.js';
 import hotelAdminRouter from './router/hotelAdminRouter.js';
 import typeAdminRouter from './router/typeAdminController.js';
@@ -15,11 +15,11 @@ app.use(express.json());
 app.use(urlencoded({ extended: true }));
 app.use(cookieParser());
 
-app.use('/', userRouter);
+app.use('/auth', userRouter);
 app.use('/hotel', hotelAdminRouter);
 app.use('/category', categoryAdminRouter);
 app.use('/type', typeAdminRouter);
-app.use('/bank', bankRouter)
+app.use('/transaction', TransactionRouter);
 
 app.listen(port, async () => {
   try {
