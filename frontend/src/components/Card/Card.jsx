@@ -1,11 +1,11 @@
 import { Image, Card, Space, Typography } from 'antd';
 import styles from './Card.module.css';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 
 const { Text, Paragraph } = Typography;
 
 function Cards(props) {
-  const { style, popular, title, description, img } = props;
+  const { style, popular, title, img } = props;
 
   function badge() {
     const styleText = {
@@ -33,7 +33,7 @@ function Cards(props) {
         hoverable={true}
         cover={
           <div style={{ display: 'flex' }}>
-            <Image preview={false} width='100%' height='180px' src={img} />
+            <Image preview={false} width='100%' style={{ aspectRatio: '16/9' }} src={img} />
           </div>
         }
       >
@@ -41,7 +41,6 @@ function Cards(props) {
       </Card>
       <Space direction='vertical' size={0} style={{ marginTop: 16 }}>
         <Text style={{ cursor: 'pointer' }}>{title}</Text>
-        <Text style={{ fontWeight: 300, color: '#B0B0B0', cursor: 'pointer' }}>{description}</Text>
       </Space>
     </div>
   );
@@ -52,15 +51,15 @@ Cards.propTypes = {
   popular: PropTypes.bool,
   title: PropTypes.string,
   description: PropTypes.string,
-  img:PropTypes.any
-}
+  img: PropTypes.any,
+};
 
 Cards.defaultProps = {
   style: {},
   popular: false,
   title: '',
   description: '',
-  img: null
-}
+  img: null,
+};
 
 export default Cards;

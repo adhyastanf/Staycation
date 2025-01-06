@@ -10,11 +10,12 @@ html,
 body {
   margin: 0;
   padding: 0;
+  overflow-x: hidden;
 }
 
-.ant-card > .ant-card-body {
+/* .ant-card > .ant-card-body {
   padding: 0 !important;
-}
+} */
 
 ul,
 li {
@@ -33,11 +34,15 @@ h6 {
   margin-bottom: 0 !important;
 }
 
-@media only screen and (max-width: 90em) {
-  :root {
-    font-size: calc(100vw * 16 / 1440);
-  }
+.ant-modal-close {
+  right: 30px !important;
 }
+
+/* @media only screen and (max-width: 90em) {
+  :root {
+    font-size: calc(100vw * 16 / 1440) !important;
+  }
+} */
 
 /* @media screen and (max-width: 600px) {
   :root {

@@ -1,6 +1,6 @@
 function TvIcon() {
   return (
-    <svg width='48' height='48' viewBox='0 0 48 48' fill='none' xmlns='http://www.w3.org/2000/svg'>
+    <svg width='32' height='32' viewBox='0 0 48 48' fill='none' xmlns='http://www.w3.org/2000/svg'>
       <g clipPath='url(#clip0_65_10)'>
         <rect width='48' height='48' fill='white' />
         <rect x='2.5' y='5.5' width='42' height='29' rx='6.5' stroke='#152C5B' strokeWidth='3' />

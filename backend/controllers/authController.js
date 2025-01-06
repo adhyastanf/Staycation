@@ -2,6 +2,14 @@ import bcrypt from 'bcrypt';
 import { generateRefreshToken, generateToken, verifyJWT } from '../helpers/accessToken.js';
 import User from '../model/user.js';
 
+const getAuth = async (req, res) => {
+  try {
+    return res.status(200).json({ code:res.statusCode, auth: true, message: 'valid token' });
+  } catch (error) {
+    return res.status(401).json({ code:res.statusCode, auth: false, message: 'Invalid token' });
+  }
+}
+
 const loginUser = async (req, res) => {
   const { username, password } = req.body;
 
@@ -33,12 +41,12 @@ const loginUser = async (req, res) => {
 
     const { password: pwd, ...other } = user.dataValues;
 
-    res.cookie('jwt', refreshToken, {
-      httpOnly: true,
-      secure: true,
-      sameSite: 'None',
-      maxAge: 24 * 60 * 60 * 1000,
-    });
+    // res.cookie('jwt', refreshToken, {
+    //   httpOnly: true,
+    //   secure: true,
+    //   sameSite: 'None',
+    //   maxAge: 24 * 60 * 60 * 1000,
+    // });
     
     // Set cookies
     // res.cookie('accessToken', accessToken, { httpOnly: true, secure: true, sameSite: 'Strict' });
@@ -84,8 +92,38 @@ const registerUser = async (req, res) => {
 };
 
 const getUser = async (req, res) => {
+  const { user_id } = req.user
   try {
-    const user = await User.findAll({ attributes: ['firstName', 'lastName'] });
+    const user = await User.findOne({ where : { id:user_id } });
+    return res.status(200).json({
+      code: res.statusCode,
+      msg: 'User found',
+      data: user,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      code: res.statusCode,
+      msg: err.message,
+    });
+  }
+};
+
+export const updateUser = async (req, res) => {
+  const { user_id } = req.user
+
+  const {username, email, fullname} = req.body
+  console.log(username, email, fullname)
+  
+  try {
+    const user = await User.findOne({ where : { id:user_id } });
+
+    await user.update({
+      username: username || user.username, // Jika tidak ada name, gunakan nilai lama
+      email: email || user.email,
+      fullname: fullname || user.fullname,
+      // password: password ? bcrypt.hash(password) : user.password, // Hash password jika diupdate
+    });
+
     return res.status(200).json({
       code: res.statusCode,
       msg: 'User found',
@@ -100,7 +138,8 @@ const getUser = async (req, res) => {
 };
 
 const refreshToken = async (req, res) => {
-  const token = req.cookies?.jwt;
+  const token = req.body.token
+
   if (!token)
     return res.status(401).json({
       code: res.statusCode,
@@ -120,7 +159,7 @@ const refreshToken = async (req, res) => {
       });
     }
 
-    const payload = { username: user.username, userId: user.userId };
+    const payload = { username: user.username, user_id: user.id };
 
     const accessToken = generateToken(payload);
 
@@ -152,4 +191,4 @@ const logoutUser = (req, res) => {
   }
 };
 
-export { loginUser, registerUser, refreshToken, logoutUser, getUser };
+export { loginUser, registerUser, refreshToken, logoutUser, getUser, getAuth };

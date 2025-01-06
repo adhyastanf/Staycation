@@ -1,6 +1,6 @@
 function WifiIcon() {
     return (
-      <svg width='48' height='48' viewBox='0 0 48 48' fill='none' xmlns='http://www.w3.org/2000/svg'>
+      <svg width='32' height='32' viewBox='0 0 48 48' fill='none' xmlns='http://www.w3.org/2000/svg'>
         <g clipPath='url(#clip0_63_10)'>
           <rect width='48' height='48' fill='white' />
           <path d='M14 29.5C16.5645 26.7393 20.3038 25 24.4677 25C28.6316 25 32.3709 26.7393 34.9354 29.5' stroke='#152C5B' strokeWidth='3' strokeLinecap='round' />

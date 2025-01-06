@@ -1,6 +1,6 @@
 function AcIcon() {
   return (
-    <svg width='48' height='48' viewBox='0 0 48 48' fill='none' xmlns='http://www.w3.org/2000/svg'>
+    <svg width='32' height='32' viewBox='0 0 48 48' fill='none' xmlns='http://www.w3.org/2000/svg'>
       <g clipPath='url(#clip0_64_7)'>
         <rect width='48' height='48' fill='white' />
         <path d='M1.5 8C1.5 6.61929 2.61929 5.5 4 5.5H44C45.3807 5.5 46.5 6.61929 46.5 8V22C46.5 23.3807 45.3807 24.5 44 24.5H4C2.61929 24.5 1.5 23.3807 1.5 22V8Z' stroke='#152C5B' strokeWidth='3' />

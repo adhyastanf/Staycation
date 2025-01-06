@@ -1,6 +1,6 @@
 function BathroomIcon() {
   return (
-    <svg width='48' height='48' viewBox='0 0 48 48' fill='none' xmlns='http://www.w3.org/2000/svg'>
+    <svg width='32' height='32' viewBox='0 0 48 48' fill='none' xmlns='http://www.w3.org/2000/svg'>
       <g clipPath='url(#clip0_62_15)'>
         <rect width='48' height='48' fill='white' />
         <path d='M41 21V7.14992C41 6.56648 40.7452 6.01214 40.3025 5.63218L38.4637 4.05421C37.7474 3.43947 36.6988 3.40928 35.9482 3.98179L33 6.23077' stroke='#FF498B' strokeWidth='3' strokeLinecap='round' />

@@ -1,16 +1,14 @@
-import { Button, Divider, Image, Typography } from 'antd';
+import { Button, Image, Typography } from 'antd';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import OceanLand from '../../assets/oceanLand.png';
-import FormBooking from '../../components/Form/FormBooking';
-import useBookStore from '../../store/booking-store';
-import axios from 'axios';
 import useSnap from '../../hooks/useSnap';
+import useBookStore from '../../store/booking-store';
+import { thousandSeparator } from '../../utils/format';
+import { fetchPostTransaction } from '../../utils/service';
 const { Title, Paragraph, Text } = Typography;
 
 function BookingInformation() {
-  const { imgUrl, city, name, country, price, nights, bookingStartDate, bookingEndDate, productId } = useBookStore();
-  const API_URL = 'http://localhost:5000';
+  const { img_url, city, title, country, price, nights, bookingStartDate, bookingEndDate, productId } = useBookStore();
   const [snap, setSnap] = useState(false);
   const navigate = useNavigate();
 
@@ -32,30 +30,29 @@ function BookingInformation() {
       night: nights,
     };
 
-    const headers = {
-      Authorization:
-        'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im9wYWwiLCJ1c2VyX2lkIjoiZTk4OGU0OGYtYjM4Mi00MDFmLWIzNTktZDhmN2M3YmM5NWY4IiwiaWF0IjoxNzI1OTU2MzQ3LCJleHAiOjE3MjYwNDI3NDd9.2pc29B9sLOUZRJWL1JEVZJcrw882HC5N97x9-Di3Ots',
-    };
-    const res = await axios.post(`${API_URL}/transaction`, body, { headers: headers });
-
-    if (res && res.status === 200) {
-      setSnap(true);
-      snapEmbed(res.data.data.snap_token, 'snap-container', {
-        onSuccess: function (result) {
-          console.log('success', result);
-          // navigate(`/order-status?transaction_id=${res.data.data.id}`)
-          setSnap(false);
-        },
-        onPending: function (result) {
-          console.log('pending', result);
-          // navigate(`/order-status?transaction_id=${res.data.data.id}`)
-          setSnap(false);
-        },
-        onClose: function () {
-          navigate(`/`)
-          setSnap(false);
-        },
-      });
+    try {
+      const res = await fetchPostTransaction(body);
+      if (res && res.code === 200) {
+        setSnap(true);
+        snapEmbed(res.data.snap_token, 'snap-container', {
+          onSuccess: function (result) {
+            console.log('success', result);
+            // navigate(`/order-status?transaction_id=${res.data.data.id}`)
+            setSnap(false);
+          },
+          onPending: function (result) {
+            console.log('pending', result);
+            // navigate(`/order-status?transaction_id=${res.data.data.id}`)
+            setSnap(false);
+          },
+          onClose: function () {
+            navigate(`/`);
+            setSnap(false);
+          },
+        });
+      }
+    } catch (err) {
+      console.log(err);
     }
   }
 
@@ -67,14 +64,14 @@ function BookingInformation() {
           <Paragraph style={{ textAlign: 'center', color: '#B0B0B0' }}>Please fill up the blank fields below</Paragraph>
           <div>
             <div>
-              <Image preview={false} src={OceanLand} style={imgStyle} />
+              <Image preview={false} src={img_url} style={imgStyle} />
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '420px' }}>
                 <div>
-                  <Paragraph style={{ marginBottom: 0 }}>{name}</Paragraph>
+                  <Paragraph style={{ marginBottom: 0 }}>{title}</Paragraph>
                   <Paragraph style={{ color: '#B0B0B0' }}>{`${city}, ${country}`}</Paragraph>
                 </div>
                 <Paragraph>
-                  ${price} USD <Text style={{ color: '#B0B0B0' }}>per</Text> {nights} nights
+                  Rp{thousandSeparator(price)} <Text style={{ color: '#B0B0B0' }}>per</Text> {nights} nights
                 </Paragraph>
               </div>
               <Paragraph>Adhyasta Naufal Faadhilah</Paragraph>

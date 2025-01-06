@@ -1,27 +1,40 @@
 import { Button, Card, Col, Image, Layout, Row, Space, Typography } from 'antd';
+import { useEffect } from 'react';
 import blueOrigin from '../../assets/blueOrigin.png';
 import HeroImg from '../../assets/hero.png';
 import oceanLand from '../../assets/oceanLand.png';
-import Cards from '../../components/Card/Card';
 import { CitiesIcon, TravelerIcon, TreasureIcon } from '../../components/Icons';
-import PropTypes from 'prop-types';
+import PlaceComponent from '../../components/PlaceComponent/placeComponent';
 import Story from '../../components/Story/Story';
+import useHomeStore from '../../store/home-store';
 import styles from './Home.module.css';
-import { useEffect } from 'react';
 
 const { Content } = Layout;
 
 const { Title, Paragraph, Text } = Typography;
 
 function HomePage() {
+  const { loadData, data, loading } = useHomeStore();
+
+  useEffect(() => {
+    if (!data['backyard']) {
+      loadData('backyard', 1);
+    }
+    if (!data['livingRoom']) {
+      loadData('livingRoom', 2);
+    }
+    if (!data['kitchenSet']) {
+      loadData('kitchenSet', 3);
+    }
+  }, [loadData]);
 
   return (
-    <Content style={{ padding: '0 150px' }}>
+    <Content>
       <HeroComponent />
       <MostPickedComponent />
-      <PlaceComponent heading='Houses with backyard' />
-      <PlaceComponent heading='Hotels with large living room' />
-      <PlaceComponent heading='Apartments with kitchen set' />
+      <PlaceComponent heading='Houses with backyard' data={data['backyard']} loading={loading['backyard']} />
+      <PlaceComponent heading='Hotels with large living room' data={data['livingRoom']} loading={loading['livingRoom']} />
+      <PlaceComponent heading='Apartments with kitchen set' data={data['kitchenSet']} loading={loading['kitchenSet']} />
       <Story />
     </Content>
   );
@@ -183,54 +196,5 @@ function MostPickedComponent() {
     </div>
   );
 }
-
-function PlaceComponent({ heading }) {
-  const cardData = [
-    {
-      src: oceanLand,
-      title: 'Ocean Land',
-      description: 'Bandung, Indonesia',
-      popular: true,
-    },
-    {
-      src: oceanLand,
-      title: 'Vinna Vill',
-      description: 'Malang, Indonesia',
-    },
-    {
-      src: oceanLand,
-      title: 'Stark House',
-      description: 'Malang, Indonesia',
-    },
-    {
-      src: oceanLand,
-      title: 'Bobox',
-      description: 'Medan, Indonesia',
-    },
-  ];
-
-  return (
-    <div style={{ marginBottom: 70 }}>
-      <Title level={3} style={{ marginBottom: '20px' }}>
-        {heading}
-      </Title>
-      <Row gutter={[30, 30]}>
-        {cardData.map((card, cardIndex) => (
-          <Col key={cardIndex} span={6}>
-            <Cards img={card?.src} title={card.title} description={card.description} popular={card.popular} />
-          </Col>
-        ))}
-      </Row>
-    </div>
-  );
-}
-
-PlaceComponent.propTypes = {
-  heading: PropTypes.string,
-};
-
-PlaceComponent.defaultProps = {
-  heading: '',
-};
 
 export default HomePage;

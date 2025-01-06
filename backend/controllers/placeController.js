@@ -3,47 +3,13 @@ import Category from '../model/Category.js';
 import Hotel from '../model/hotel.js';
 import Type from '../model/type.js';
 
-const createHotel = async (req, res) => {
-  const { name, description, category, city, country, type, price, qty, bedroom, livingroom, bathroom, diningroom, wifi, unit, refigrator, television } = req.body;
-  const path = req.file.path;
-
-  try {
-    const uploader = async (path) => await cloudinary(path, 'Images');
-    const img = await uploader(path);
-    const hotel = await Hotel.create({
-      name,
-      description,
-      city,
-      country,
-      typeId: type,
-      price,
-      qty,
-      categoryId: category,
-      img_url: img.url,
-      bedroom: bedroom || null,
-      livingRoom: livingroom || null,
-      bathroom: bathroom || null,
-      diningRoom: diningroom || null,
-      wifi: wifi || null,
-      unit: unit || null,
-      refigrator: refigrator || null,
-      television: television || null,
-    });
-
-    return res.status(200).json({
-      code: res.statusCode,
-      msg: 'Hotel has succesfullly booked',
-      data: hotel,
-    });
-  } catch (err) {
-    return res.status(500).json({
-      code: res.statusCode,
-      msg: err.message,
-    });
-  }
-};
-
 const viewHotels = async (req, res) => {
+  const { category } = req.query;
+  const condition = {};
+  if(category){
+    condition.categoryId = parseInt(category)
+  }
+  
   try {
     const hotels = await Hotel.findAll({
       include: [
@@ -56,13 +22,17 @@ const viewHotels = async (req, res) => {
           attributes: ['type'],
         },
       ],
+      attributes: ['title', 'img_url', 'id'],
+      where: condition,
     });
 
     const formattedHotels = hotels.map((hotel) => ({
-      name: hotel.name,
+      title: hotel.title,
+      img_url: hotel.img_url,
+      description: hotel.description,
       id: hotel.id,
-      category: hotel.categoryId ? hotel.Category.category : null,
-      type: hotel?.typeId ? hotel.Type.type : null,
+      category: hotel.Category.category || null,
+      type: hotel.Type.type || null,
     }));
 
     return res.status(200).json({
@@ -77,7 +47,8 @@ const viewHotels = async (req, res) => {
     });
   }
 };
-const getSingleHotel = async (req, res) => {
+
+const viewSingleHotel = async (req, res) => {
   const { productId } = req.params;
   try {
     const hotel = await Hotel.findByPk(productId);
@@ -141,4 +112,4 @@ const deleteHotel = async (req, res) => {
   }
 };
 
-export { createHotel, updateHotel, viewHotels, getSingleHotel, deleteHotel };
+export { viewHotels, viewSingleHotel };

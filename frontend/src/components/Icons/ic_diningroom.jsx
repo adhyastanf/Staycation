@@ -1,6 +1,6 @@
 function DiningroomIcon() {
   return (
-    <svg width='48' height='48' viewBox='0 0 48 48' fill='none' xmlns='http://www.w3.org/2000/svg'>
+    <svg width='32' height='32' viewBox='0 0 48 48' fill='none' xmlns='http://www.w3.org/2000/svg'>
       <g clipPath='url(#clip0_62_37)'>
         <rect width='48' height='48' fill='white' />
         <path d='M15.9932 13L16.0034 19' stroke='#152C5B' strokeWidth='3' strokeLinecap='round' />

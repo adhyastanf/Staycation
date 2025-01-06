@@ -1,6 +1,6 @@
 function LivingroomIcon() {
   return (
-    <svg width='48' height='48' viewBox='0 0 48 48' fill='none' xmlns='http://www.w3.org/2000/svg'>
+    <svg width='32' height='32' viewBox='0 0 48 48' fill='none' xmlns='http://www.w3.org/2000/svg'>
       <g clipPath='url(#clip0_62_0)'>
         <rect width='48' height='48' fill='white' />
         <path d='M1.5 29C1.5 27.6193 2.61929 26.5 4 26.5H20C21.3807 26.5 22.5 27.6193 22.5 29V35C22.5 36.3807 21.3807 37.5 20 37.5H4C2.61929 37.5 1.5 36.3807 1.5 35V29Z' stroke='#152C5B' strokeWidth='3' />

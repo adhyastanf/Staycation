@@ -46,7 +46,6 @@ const Booking = () => {
   return (
     <>
       <BookingInformation />
-      sdasd
     </>
   );
 };

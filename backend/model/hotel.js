@@ -9,7 +9,7 @@ const Hotel = sequelize.define('Hotel', {
     autoIncrement: true,
     primaryKey: true,
   },
-  name: {
+  title: {
     type: DataTypes.STRING,
     allowNull: false,
   },
@@ -19,49 +19,49 @@ const Hotel = sequelize.define('Hotel', {
   },
   bedroom: {
     type: DataTypes.INTEGER,
-    allowNull: true,
+    allowNull: false,
     defaultValue: 0,
   },
   livingRoom: {
     type: DataTypes.INTEGER,
     field: 'living_room',
-    allowNull: true,
+    allowNull: false,
     defaultValue: 0,
   },
   bedroom: {
     type: DataTypes.INTEGER,
-    allowNull: true,
+    allowNull: false,
     defaultValue: 0,
   },
   bathroom: {
     type: DataTypes.INTEGER,
-    allowNull: true,
+    allowNull: false,
     defaultValue: 0,
   },
   diningRoom: {
     type: DataTypes.INTEGER,
     field: 'dining_room',
-    allowNull: true,
+    allowNull: false,
     defaultValue: 0,
   },
   wifi: {
     type: DataTypes.INTEGER,
-    allowNull: true,
+    allowNull: false,
     defaultValue: 0,
   },
   unit: {
     type: DataTypes.INTEGER,
-    allowNull: true,
+    allowNull: false,
     defaultValue: 0,
   },
   refigrator: {
     type: DataTypes.INTEGER,
-    allowNull: true,
+    allowNull: false,
     defaultValue: 0,
   },
   television: {
     type: DataTypes.INTEGER,
-    allowNull: true,
+    allowNull: false,
     defaultValue: 0,
   },
   city: {
@@ -82,13 +82,14 @@ const Hotel = sequelize.define('Hotel', {
   },
   isPopular: {
     type: DataTypes.BOOLEAN,
-    allowNull: true,
+    allowNull: false,
     defaultValue: false,
   },
 });
 
 Category.hasOne(Hotel, { foreignKey: 'categoryId' });
 Hotel.belongsTo(Category, { foreignKey: 'categoryId' });
+
 Type.hasOne(Hotel, { foreignKey: 'typeId' });
 Hotel.belongsTo(Type, { foreignKey: 'typeId' });
 

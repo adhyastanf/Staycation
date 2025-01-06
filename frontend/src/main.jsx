@@ -29,6 +29,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
           },
           Typography: {
             titleMarginBottom: 0,
+            titleMarginTop:0,
           },
           Card: {
             actionsLiMargin: 0,

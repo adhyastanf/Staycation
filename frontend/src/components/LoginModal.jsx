@@ -1,18 +1,13 @@
-import React from 'react';
-import { Modal, Input, Form, Button } from 'antd';
-import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
+import { Form, Modal } from 'antd';
+import React from 'react';
+import { useForm } from 'react-hook-form';
+import { loginSchema } from '../utils/schema';
+import InputField from './Input/Input';
 
-// Yup validation schema
-const loginSchema = yup.object().shape({
-  username: yup.string().required('Username is required'),
-  password: yup.string().required('Password is required'),
-});
-
-export default function LoginModal({ isVisible, onClose, onLogin }) {
+export default function LoginModal({ open, onClose, onLogin }) {
   const { 
-    control,  // Access to the controller
+    control, 
     handleSubmit, 
     formState: { errors, isSubmitting } 
   } = useForm({
@@ -20,11 +15,9 @@ export default function LoginModal({ isVisible, onClose, onLogin }) {
   });
 
   const onSubmit = async (data) => {
-    console.log('Form data:', data); // Check the form data being submitted
-    console.log('Errors:', errors); // Check if there are errors at this point
     try {
-      await onLogin(data); // Call login function
-      onClose(); // Close modal after login
+      await onLogin(data); 
+      onClose();
       window.location.reload();
     } catch (error) {
       console.error('Login failed:', error);
@@ -34,52 +27,16 @@ export default function LoginModal({ isVisible, onClose, onLogin }) {
   return (
     <Modal
       title="Login"
-      open={isVisible}  // 'open' instead of 'visible'
+      open={open}
       onOk={handleSubmit(onSubmit)}
-      onCancel={onClose}  // Handle modal close action
+      onCancel={onClose}
       okText="Login"
       confirmLoading={isSubmitting}
+      closable={false}
     >
-      <Form layout="vertical" onFinish={handleSubmit(onSubmit)}>
-        
-        {/* Username Field */}
-        <Form.Item
-          label="Username"
-          validateStatus={errors.username ? 'error' : ''}
-          help={errors.username?.message}
-        >
-          <Controller
-            name="username"
-            control={control}
-            defaultValue=""
-            render={({ field }) => (
-              <Input {...field} placeholder="Enter your username" />
-            )}
-          />
-        </Form.Item>
-
-        {/* Password Field */}
-        <Form.Item
-          label="Password"
-          validateStatus={errors.password ? 'error' : ''}
-          help={errors.password?.message}
-        >
-          <Controller
-            name="password"
-            control={control}
-            defaultValue=""
-            render={({ field }) => (
-              <Input.Password {...field} placeholder="Enter your password" />
-            )}
-          />
-        </Form.Item>
-        
-        {/* Use htmlType="submit" for form submission */}
-        {/* <Form.Item>
-          <Button type="primary" htmlType="submit">
-            Login
-          </Button>
-        </Form.Item> */}
+      <Form layout="vertical">
+        <InputField label={'username'} control={control} errors={errors} name='username' placeholder="Enter your username"  />
+        <InputField label={'password'} type='password' control={control} errors={errors} name='password' placeholder="Enter your password"  />
       </Form>
     </Modal>
   );

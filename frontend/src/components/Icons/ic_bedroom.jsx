@@ -1,6 +1,6 @@
 function BedroomIcon() {
   return (
-    <svg width='48' height='48' viewBox='0 0 48 48' fill='none' xmlns='http://www.w3.org/2000/svg'>
+    <svg width='32' height='32' viewBox='0 0 48 48' fill='none' xmlns='http://www.w3.org/2000/svg'>
       <g clipPath='url(#clip0_60_24)'>
         <rect width='48' height='48' fill='white' />
         <path d='M12.5 18C12.5 16.6193 13.6193 15.5 15 15.5H19C20.3807 15.5 21.5 16.6193 21.5 18V24.5H12.5V18Z' stroke='#FF498B' strokeWidth='3' />

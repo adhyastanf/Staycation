@@ -1,45 +1,29 @@
-import { Layout, Menu, Typography, Button } from 'antd';
-import { useState } from 'react';
+import { LogoutOutlined } from '@ant-design/icons';
+import { Button, Dropdown, Flex, Layout, Menu, Typography } from 'antd';
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { useAuth } from '../../hooks/useAuth';
+import useAuthStore from '../../store/auth-store';
+import useProfileStore from '../../store/profile-store';
 import LoginModal from '../LoginModal';
 import RegisterModal from '../RegisterModal';
-import Cookies from 'js-cookie';
-import { fetchLogin, fetchRegister } from '../../utils/service';
-import { useAuth } from '../../hooks/useAuth';
 
 const { Header } = Layout;
 const { Title } = Typography;
 
 function Headers() {
-  const { isAuthenticated, loading } = useAuth();
+  const { isAuth, handleLogin, handleRegister, handleLogout, loading } = useAuthStore();
+  const { loadData, data } = useProfileStore();
   const [isLoginVisible, setIsLoginVisible] = useState(false);
   const [isRegisterVisible, setIsRegisterVisible] = useState(false);
 
-  const handleLogin = async (values) => {
-    try{
+  useAuth()
 
-      const res = await fetchLogin(values);
-      const { accessToken, refreshToken } = res.data;
-      // Simpan access dan refresh token ke cookies
-      Cookies.set('token', accessToken, { expires: 1 });
-      Cookies.set('refreshToken', refreshToken, { expires: 7 }); // Refresh token disimpan selama 7 hari
-    }catch (err){
-      throw err;
+  useEffect(() => {
+    if (isAuth && !data) {
+      loadData('data');
     }
-  };
-
-  const handleRegister = async (values) => {
-    try {
-      await fetchRegister(values);
-    } catch (err) {
-      throw err;
-    }
-  };
-
-  const handleLogout = () => {
-    Cookies.remove('token');
-    Cookies.remove('refreshToken');
-    window.location.reload(); // Reload halaman setelah logout
-  };
+  }, [isAuth]);
 
   const headerStyle = {
     display: 'flex',
@@ -47,13 +31,12 @@ function Headers() {
     justifyContent: 'space-between',
   };
 
-  // Ini adalah variabel yang berisi tombol login beserta modalnya
   const loginButton = (
     <div>
       <Button type='primary' onClick={() => setIsLoginVisible(true)}>
         Login
       </Button>
-      <LoginModal isVisible={isLoginVisible} onClose={() => setIsLoginVisible(false)} onLogin={handleLogin} />
+      <LoginModal open={isLoginVisible} onClose={() => setIsLoginVisible(false)} onLogin={handleLogin} />
     </div>
   );
 
@@ -66,16 +49,34 @@ function Headers() {
     </div>
   );
 
-  // Array item menu, termasuk `loginButton` sebagai elemen JSX, bukan fungsi
-  const nav = isAuthenticated ? ['Home', 'Browse by', 'Stories', 'Agents', <Button onClick={handleLogout}>Logout</Button>] : ['Home', 'Browse by', 'Stories', 'Agents', loginButton, registerButton];
+  const logoutButton = (
+    <>
+      <MenuComponent username={data?.username} onClick={handleLogout} />
+    </>
+  );
+
+  const authComponent = isAuth ? (
+    <Flex gap={20} align={'center'}>
+      {logoutButton}
+    </Flex>
+  ) : (
+    <Flex gap={20}>
+      {loginButton}
+      {registerButton}
+    </Flex>
+  );
+
+  const nav = ['Home', 'Browse by', 'Stories', 'Agents'];
 
   return (
     <Header style={headerStyle}>
-      <Title level={3} style={{ marginTop: 0 }}>
-        <span style={{ color: '#3252DF' }}>Stay</span>
-        cation.
-      </Title>
-      {!loading && (
+      <Link to='/'>
+        <Title level={3} style={{ marginTop: 0 }}>
+          <span style={{ color: '#3252DF' }}>Stay</span>
+          cation.
+        </Title>
+      </Link>
+      <Flex align={'center'}>
         <Menu
           mode='horizontal'
           disabledOverflow
@@ -87,9 +88,48 @@ function Headers() {
             };
           })}
         />
-      )}
+
+        {!loading && authComponent}
+      </Flex>
     </Header>
   );
 }
 
 export default Headers;
+
+function MenuComponent({ username = '', onClick }) {
+  const items = [
+    {
+      key: '1',
+      label: username,
+      disabled: true,
+    },
+    {
+      type: 'divider',
+    },
+    {
+      key: '2',
+      label: <Link to='/user/profile'>Profile</Link>,
+    },
+    {
+      key: '3',
+      label: <Link to='/user/order-list'>Order List</Link>,
+    },
+    {
+      key: '4',
+      label: <div onClick={onClick}>Logout</div>,
+      icon: <LogoutOutlined />,
+    },
+  ];
+  return (
+    <Dropdown
+      menu={{
+        items,
+      }}
+    >
+      <a onClick={(e) => e.preventDefault()}>
+        <div>{username}</div>
+      </a>
+    </Dropdown>
+  );
+}
