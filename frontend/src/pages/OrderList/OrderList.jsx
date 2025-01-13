@@ -1,4 +1,4 @@
-import { Layout, Tabs, Typography } from 'antd';
+import { Flex, Layout, Tabs } from 'antd';
 import { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import CardOrderList from '../../components/CardOrderList/CardOrderList';
@@ -75,11 +75,11 @@ export default function OrderList() {
   return (
     <Content>
       <Tabs activeKey={defaultTabsKey[paramStatus] || '0'} items={items} onChange={onChange} />
-      {!isValidStatus && <EmptyData />}
+      {!isValidStatus && (
+        <Flex justify='center' style={{ flexDirection: 'column', height: '600px' }}>
+          <EmptyData />
+        </Flex>
+      )}
     </Content>
   );
 }
-
-
-
-

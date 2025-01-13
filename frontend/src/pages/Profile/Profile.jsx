@@ -1,13 +1,11 @@
-import { lazy, Suspense, useEffect } from 'react';
+import { useEffect } from 'react';
 
-import { Layout } from 'antd';
+import { Layout, Skeleton } from 'antd';
 import useProfileStore from '../../store/profile-store';
-
-const ProfileDetails = lazy(() => import('./ProfileDetails.jsx'));
+import ProfileDetails from './ProfileDetails';
+import LoadingProfle from '../../components/Loading/LoadingProfile/LoadingProfile';
 
 const { Content } = Layout;
-
-
 
 export default function Profile() {
   const { loadData, data, loading } = useProfileStore();
@@ -18,13 +16,11 @@ export default function Profile() {
     }
   }, []);
 
-  if (loading['data']) return <p>Loading...</p>;
+  if (loading['data']) return <LoadingProfle />;
 
   return (
-    <Content>
-      <Suspense fallback={<p>loading...</p>}>
-        <ProfileDetails username={data.username} fullname={data.fullname} email={data.email} />
-      </Suspense>
+    <Content style={{ height: '100vh' }}>
+      <ProfileDetails username={data.username} fullname={data.fullname} email={data.email} />
     </Content>
   );
 }

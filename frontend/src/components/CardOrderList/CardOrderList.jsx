@@ -5,16 +5,22 @@ import ModalDetailTransaction from '../../components/ModalDetailTransaction/Moda
 import useDetailTransactionStore from '../../store/detail-transaction-store';
 import { formatDate, thousandSeparator } from '../../utils/format';
 import EmptyData from '../EmptyComponent/EmptyData';
+import LoadingCardOrderList from '../Loading/LoadingCardOrderList/LoadingCardOrderList';
 
 const { Content } = Layout;
 const { Title, Paragraph, Text } = Typography;
 
 export default function CardOrderList({ data, loading }) {
-  if (loading) return <p>Loading...</p>;
-  if (!data || !data.length) return <EmptyData />;
+  if (loading) return <LoadingCardOrderList />;
+  if (!data || !data.length)
+    return (
+      <Flex justify="center" style={{flexDirection: 'column', height: '600px'}}>
+        <EmptyData />
+      </Flex>
+    );
 
   return (
-    <Space direction='vertical' size='middle' style={{ width: '100%' }}>
+    <Space direction='vertical' size='middle' style={{ width: '100%', height: '600px', overflowY: 'auto' }}>
       {data.map((val, idx) => {
         const { id: itemId, title, img_url, city, country } = val.Hotel;
 
@@ -24,8 +30,8 @@ export default function CardOrderList({ data, loading }) {
               itemId={itemId}
               id={val.id}
               title={title}
-              bookingStartDate={val.bookingStartDate}
-              bookingEndDate={val.bookingEndDate}
+              bookingStartDate={val.checkInDate}
+              bookingEndDate={val.checkOutDate}
               status={val.status}
               paymentMethod={val.payment_method}
               price={val.price}
@@ -114,7 +120,3 @@ function CardItem({ itemId, snapRedirect, id, bookingStartDate, bookingEndDate, 
     </Card>
   );
 }
-
-
-
-

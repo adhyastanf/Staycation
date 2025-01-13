@@ -19,12 +19,14 @@ import LoginModal from '../../components/LoginModal';
 import useAuthStore from '../../store/auth-store';
 import { thousandSeparator } from '../../utils/format';
 import styles from './DetailHouse.module.css';
+import DetailHouseLoading from '../../components/Loading/LoadingDetailHouse/LoadingDetailHouse';
+import NotFound from '../NotFound/NotFound';
 
 const { Content } = Layout;
 const { Title, Paragraph, Text } = Typography;
 
 function DetailHouse() {
-  const { productId } = useParams();
+  const { slug } = useParams();
   const navigate = useNavigate();
 
   const [stay, setStay] = useState(0);
@@ -33,10 +35,14 @@ function DetailHouse() {
   const { data, loadData, loading } = useDetailStore();
   const { updateBooking } = useBookStore();
   const { isAuth, handleLogin } = useAuthStore();
+  const isEmpty = (obj) => Object.keys(obj).length === 0;
+
+  let productId = slug.split('-');
+  productId = productId[productId.length - 1];
 
   useEffect(() => {
-    loadData(productId);
-  }, [productId, loadData]);
+    loadData(slug);
+  }, [slug, loadData]);
 
   const disabledButton = Boolean(date);
 
@@ -84,10 +90,14 @@ function DetailHouse() {
   };
 
   if (loading) {
-    return <p>Loading...</p>;
+    return <DetailHouseLoading />;
   }
 
-  const { title, img_url, country, city, description, price, bedroom, bathroom, livingRoom, diningRoom, television, refigrator, wifi } = data[productId] || {};
+  if (Boolean(isEmpty(data))) {
+    return <NotFound />;
+  }
+
+  const { title, img_url, country, city, description, price, bedroom, bathroom, livingRoom, diningRoom, television, refigrator, wifi } = data[slug] || {};
   const totalPrice = price * stay || price;
 
   const breadcrumbItems = [{ title: 'Home' }, { title: 'Detail' }, { title: title }];
@@ -154,9 +164,9 @@ function DetailHouse() {
       </Flex>
 
       <div className={styles.containerGrid}>
-        <Image preview={false} width='100%' height='500px' src={DetailHouse1} />
-        <Image preview={false} width='100%' height='245px' src={DetailHouse2} />
-        <Image preview={false} width='100%' height='245px' src={DetailHouse2} />
+        <Image preview={false} width='100%' height='500px' src={img_url} />
+        <Image preview={false} width='100%' height='245px' src={img_url} />
+        <Image preview={false} width='100%' height='245px' src={img_url} />
       </div>
 
       <Flex gap={52} justify='space-between'>

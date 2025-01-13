@@ -1,4 +1,4 @@
-import { Button, Image, Typography } from 'antd';
+import { Button, Flex, Image, Typography } from 'antd';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useSnap from '../../hooks/useSnap';
@@ -36,13 +36,12 @@ function BookingInformation() {
         setSnap(true);
         snapEmbed(res.data.snap_token, 'snap-container', {
           onSuccess: function (result) {
-            console.log('success', result);
-            // navigate(`/order-status?transaction_id=${res.data.data.id}`)
+
+            navigate(`/user/order-list`)
             setSnap(false);
           },
           onPending: function (result) {
-            console.log('pending', result);
-            // navigate(`/order-status?transaction_id=${res.data.data.id}`)
+            navigate(`/user/order-list`)
             setSnap(false);
           },
           onClose: function () {
@@ -57,13 +56,12 @@ function BookingInformation() {
   }
 
   return (
-    <div style={{ maxWidth: '900px', margin: 'auto' }}>
+    <div style={{ maxWidth: '500px', margin: 'auto' }}>
       {!snap && (
         <>
           <Title style={{ textAlign: 'center' }}>Booking Information</Title>
           <Paragraph style={{ textAlign: 'center', color: '#B0B0B0' }}>Please fill up the blank fields below</Paragraph>
-          <div>
-            <div>
+            <Flex align='center' style={{ flexDirection: 'column' }}>
               <Image preview={false} src={img_url} style={imgStyle} />
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '420px' }}>
                 <div>
@@ -78,11 +76,11 @@ function BookingInformation() {
               <Button size='large' type='primary' style={{ width: '100%' }} onClick={pay}>
                 Checkout
               </Button>
-            </div>
-          </div>
+            </Flex>
         </>
       )}
-      <div id='snap-container'></div>
+
+      <Flex justify="center" style={{ height:'100vh'}}id='snap-container'></Flex>
     </div>
   );
 }

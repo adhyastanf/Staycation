@@ -12,11 +12,6 @@ body {
   padding: 0;
   overflow-x: hidden;
 }
-
-/* .ant-card > .ant-card-body {
-  padding: 0 !important;
-} */
-
 ul,
 li {
   list-style: none;

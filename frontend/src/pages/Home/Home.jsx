@@ -182,7 +182,7 @@ function MostPickedComponent() {
           <Col key={colIndex} flex={1} style={{ display: 'grid', gap: 30 }}>
             {colData[colIndex].map((card, cardIndex) => {
               return (
-                <Card key={cardIndex} bordered={false} hoverable={true} style={{ borderRadius: 15, overflow: 'hidden' }}>
+                <Card key={cardIndex} bordered={false} hoverable={true} style={{ borderRadius: 15, overflow: 'hidden' }} className={styles.containerBackyard}>
                   <div style={{ display: 'flex' }}>
                     <Image preview={false} width='100%' height='215px' src={card.src} />
                   </div>

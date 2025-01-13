@@ -2,6 +2,7 @@ import { DataTypes } from 'sequelize';
 import sequelize from '../db/sequelize.js';
 import Category from './category.js';
 import Type from './type.js';
+import slugify from 'slugify';
 
 const Hotel = sequelize.define('Hotel', {
   id: {
@@ -80,6 +81,11 @@ const Hotel = sequelize.define('Hotel', {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
+  slug: {
+    type: DataTypes.STRING,
+    allowNull: true,
+    unique: true,
+  },
   isPopular: {
     type: DataTypes.BOOLEAN,
     allowNull: false,
@@ -92,5 +98,22 @@ Hotel.belongsTo(Category, { foreignKey: 'categoryId' });
 
 Type.hasOne(Hotel, { foreignKey: 'typeId' });
 Hotel.belongsTo(Type, { foreignKey: 'typeId' });
+
+Hotel.afterCreate(async (hotel) => {
+  const slug = slugify(`${hotel.title}-${hotel.id}`, {
+    lower: true, // Slug dalam huruf kecil
+    strict: true, // Hanya karakter alfanumerik dan tanda hubung
+  });
+
+  // Perbarui slug dengan nama + ID
+  hotel.slug = slug;
+  await hotel.save();
+});
+
+Hotel.afterUpdate(async (hotel) => {
+  hotel.slug = slugify(`${hotel.title}-${hotel.id}`, { lower: true, strict: true });
+
+  await hotel.save();
+});
 
 export default Hotel;

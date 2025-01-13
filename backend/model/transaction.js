@@ -27,6 +27,10 @@ const Transaction = sequelize.define('Transaction', {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
+  night: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
 });
 
 Guest.hasMany(Transaction, { foreignKey: 'guestId' });

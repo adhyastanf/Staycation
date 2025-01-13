@@ -1,5 +1,4 @@
 import { CalendarOutlined, MailOutlined } from '@ant-design/icons';
-import { lazy } from 'react';
 
 import { Layout } from 'antd';
 import { Link, Outlet } from 'react-router-dom';
@@ -26,8 +25,8 @@ const styleLayout = {
 
 const styleContent = {
   padding: '10px 20px',
-  flex:1
-  // minWidth:'100'
+  flex:1,
+  // height:'100vh'
 };
 
 export default function LayoutAccount() {

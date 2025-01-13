@@ -28,13 +28,12 @@ const useSnap = () => {
         onSuccess: function (result) {
           /* You may add your own implementation here */
           alert('payment success!');
-          console.log(result);
           action.onSuccess(result);
+          
         },
         onPending: function (result) {
           /* You may add your own implementation here */
           alert('wating your payment!');
-          console.log(result);
           action.onPending(result);
         },
         onError: function (result) {

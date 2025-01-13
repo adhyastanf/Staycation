@@ -8,7 +8,7 @@ import { updateSchema } from '../../utils/schema';
 
 const { Content } = Layout;
 
-const { Title, Text, Paragraph } = Typography;
+const { Title, Paragraph } = Typography;
 
 export default function ProfileDetails({ username, fullname, email }) {
   const [isModalOpen, setIsModalOpen] = useState(false);

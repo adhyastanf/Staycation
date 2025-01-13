@@ -6,10 +6,10 @@ import Type from '../model/type.js';
 const viewHotels = async (req, res) => {
   const { category } = req.query;
   const condition = {};
-  if(category){
-    condition.categoryId = parseInt(category)
+  if (category) {
+    condition.categoryId = parseInt(category);
   }
-  
+
   try {
     const hotels = await Hotel.findAll({
       include: [
@@ -22,7 +22,7 @@ const viewHotels = async (req, res) => {
           attributes: ['type'],
         },
       ],
-      attributes: ['title', 'img_url', 'id'],
+      attributes: ['title', 'img_url', 'id', 'slug'],
       where: condition,
     });
 
@@ -33,6 +33,7 @@ const viewHotels = async (req, res) => {
       id: hotel.id,
       category: hotel.Category.category || null,
       type: hotel.Type.type || null,
+      slug: hotel.slug,
     }));
 
     return res.status(200).json({
@@ -49,60 +50,14 @@ const viewHotels = async (req, res) => {
 };
 
 const viewSingleHotel = async (req, res) => {
-  const { productId } = req.params;
+  const { slug } = req.params;
   try {
-    const hotel = await Hotel.findByPk(productId);
+    const hotel = await Hotel.findOne({ where: { slug } });
+
     return res.status(200).json({
       code: res.statusCode,
       msg: 'Get hotel successfully',
       data: hotel,
-    });
-  } catch (err) {
-    return res.status(500).json({
-      code: res.statusCode,
-      msg: err.message,
-    });
-  }
-};
-
-const updateHotel = async (req, res) => {
-  const path = req?.file?.path;
-  const { productId } = req.params;
-
-  let updateData;
-
-  try {
-    updateData = { ...req.body, typeId: req.body.type, categoryId: req.body.category };
-    if (path) {
-      const uploader = async (path) => await cloudinary(path, 'Images');
-      const img = await uploader(path);
-      updateData = { ...req.body, img_url: img.url, typeId: req.body.type, categoryId: req.body.category };
-    }
-    await Hotel.update(updateData, { where: { id: productId } });
-    return res.status(200).json({
-      code: res.statusCode,
-      msg: 'Update hotel successfully',
-    });
-  } catch (err) {
-    return res.status(500).json({
-      code: res.statusCode,
-      msg: err.message,
-    });
-  }
-};
-
-const deleteHotel = async (req, res) => {
-  const { name, id } = req.body;
-
-  try {
-    await Hotel.destroy({
-      name,
-      id,
-    });
-
-    return res.status(200).json({
-      code: res.statusCode,
-      msg: 'Hotel has successfully delete',
     });
   } catch (err) {
     return res.status(500).json({

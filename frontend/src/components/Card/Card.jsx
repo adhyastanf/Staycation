@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 const { Text, Paragraph } = Typography;
 
 function Cards(props) {
-  const { style, popular, title, img } = props;
+  const { style, popular, title, img, city, country } = props;
 
   function badge() {
     const styleText = {
@@ -41,6 +41,9 @@ function Cards(props) {
       </Card>
       <Space direction='vertical' size={0} style={{ marginTop: 16 }}>
         <Text style={{ cursor: 'pointer' }}>{title}</Text>
+        <Text style={{ cursor: 'pointer' }}>
+          {city}, {country}
+        </Text>
       </Space>
     </div>
   );

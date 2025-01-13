@@ -41,11 +41,11 @@ const createTransaction = async (req, res) => {
         first_name: user?.fullname,
         email: user?.email,
       },
-      callbacks: {
-        finish: `${process.env.FRONT_END_URL}/order-status`,
-        error: `${process.env.FRONT_END_URL}/order-status`,
-        pending: `${process.env.FRONT_END_URL}/order-status`,
-      },
+      // callbacks: {
+      //   finish: `${process.env.FRONT_END_URL}`,
+      //   error: `${process.env.FRONT_END_URL}`,
+      //   pending: `${process.env.FRONT_END_URL}`,
+      // },
     };
 
     const authString = btoa(process.env.SERVER_KEY_MIDTRANS);
@@ -85,7 +85,8 @@ const createTransaction = async (req, res) => {
       snap_token: data.token,
       snap_redirect_url: data.redirect_url,
       price: product.price * night,
-      guestId: guest.id, // Kaitkan transaksi dengan tamu
+      guestId: guest.id,
+      night
     };
 
     await Transaction.create(resData);
@@ -137,6 +138,7 @@ const getAllTransaction = async (req, res) => {
         snap_token: val.snap_token,
         snap_redirect_url: val.snap_redirect_url,
         price: val.price,
+        night: val.night,
         guestId: val.guestId,
         checkInDate: val.Guest.checkInDate,
         checkOutDate: val.Guest.checkOutDate,

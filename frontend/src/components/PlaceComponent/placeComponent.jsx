@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import Cards from '../Card/Card';
 import EmptyData from '../EmptyComponent/EmptyData';
-import LoadingCardHome from '../Loading/LoadingCardHome';
+import LoadingCardHome from '../Loading/LoadingCardHome/LoadingCardHome';
 
 const { Title, Paragraph } = Typography;
 
@@ -25,7 +25,7 @@ export default function PlaceComponent({ heading, data, loading }) {
         <Row gutter={[30, 30]}>
           {data.map((card, cardIndex) => (
             <Col key={cardIndex} span={6}>
-              <Link to={'house/'.concat(card?.id)}>
+              <Link to={'house/'.concat(card?.slug)}>
                 <Cards img={card.img_url} title={card.title} description={card.description} popular={card.popular} />
               </Link>
             </Col>
