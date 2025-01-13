@@ -123,11 +123,11 @@ const updateHotel = async (req, res) => {
 };
 
 const deleteHotel = async (req, res) => {
-  const { name, id } = req.body;
+  const { title, id } = req.body;
 
   try {
     await Hotel.destroy({
-      name,
+      title,
       id,
     });
 

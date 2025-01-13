@@ -101,11 +101,10 @@ Hotel.belongsTo(Type, { foreignKey: 'typeId' });
 
 Hotel.afterCreate(async (hotel) => {
   const slug = slugify(`${hotel.title}-${hotel.id}`, {
-    lower: true, // Slug dalam huruf kecil
-    strict: true, // Hanya karakter alfanumerik dan tanda hubung
+    lower: true,
+    strict: true, 
   });
 
-  // Perbarui slug dengan nama + ID
   hotel.slug = slug;
   await hotel.save();
 });

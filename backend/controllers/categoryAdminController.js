@@ -24,11 +24,11 @@ const updateCategory = async (req, res) => {
   const {categoryId} = req.params
   const body = req.body;
   try {
-    const hotel = await Category.update(body, { where: { id: categoryId } });
+    const category = await Category.update(body, { where: { id: categoryId } });
     return res.status(200).json({
       code: res.statusCode,
-      msg: 'Hotel has been updated',
-      data: hotel,
+      msg: 'Category has updated',
+      data: category,
     });
   } catch (err) {
     return res.status(500).json({
@@ -57,13 +57,13 @@ const viewCategory = async (req, res) => {
 const deleteCategory = async (req, res) => {
   const { category, id } = req.body;
   try {
-    const category = await Category.destroy({
+    const categories = await Category.destroy({
       where: { category, id },
     });
     return res.status(200).json({
       code: res.statusCode,
       msg: 'Get Category successfully',
-      data: category,
+      data: categories,
     });
   } catch (err) {
     return res.status(500).json({

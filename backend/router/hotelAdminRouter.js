@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { createHotel, deleteHotel, getSingleHotel, updateHotel, viewHotels } from '../controllers/hotelController.js';
-import { authenticateToken } from '../helpers/middleware.js';
+// import { authenticateToken } from '../helpers/middleware.js';
 import upload from '../helpers/upload.js';
 
 const hotelAdminRouter = Router();

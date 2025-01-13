@@ -179,6 +179,14 @@ const getTransactionById = async (req, res) => {
       ],
     });
 
+    if (!transaction) {
+      return res.status(404).json({
+        code: res.statusCode,
+        status: 'error',
+        message: 'Detail Transaction not found',
+      });
+    }
+
     const formattedArray = {
       id: transaction.id,
       status: transaction.status,
@@ -194,14 +202,6 @@ const getTransactionById = async (req, res) => {
       userId: transaction.Guest.userId,
       Hotel: transaction.Guest.Hotel,
     };
-
-    if (!transaction) {
-      return res.status(404).json({
-        code: res.statusCode,
-        status: 'error',
-        message: 'Detail Transaction not found',
-      });
-    }
 
     return res.status(200).json({
       code: res.statusCode,

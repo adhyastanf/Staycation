@@ -118,10 +118,10 @@ export const updateUser = async (req, res) => {
     const user = await User.findOne({ where : { id:user_id } });
 
     await user.update({
-      username: username || user.username, // Jika tidak ada name, gunakan nilai lama
+      username: username || user.username,
       email: email || user.email,
       fullname: fullname || user.fullname,
-      // password: password ? bcrypt.hash(password) : user.password, // Hash password jika diupdate
+      // password: password ? bcrypt.hash(password) : user.password, 
     });
 
     return res.status(200).json({
