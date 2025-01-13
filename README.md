@@ -73,7 +73,7 @@ Full API documentation is available on Postman:
 4. Set up environment variables (e.g., database credentials, JWT secret, Midtrans API keys).  
 5. Start the server:  
    ```bash  
-   npm start  
+   npm run dev  
    ```  
 
 ---
