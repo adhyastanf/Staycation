@@ -18,7 +18,7 @@ Staycation is a web-based platform that allows users to explore and book accommo
 ---
 
 ## **Backend**  
-**Local Server (Ngrok)**: [Staycation Backend](https://9139-2400-9800-160-e5b1-9c5f-8d81-2329-4cb5.ngrok-free.app)  
+**Local Server (Ngrok)**: [Staycation Backend](https://089d-111-95-40-2.ngrok-free.app)  
 
 ### **Tech Stack**  
 - **Node.js** (runtime environment)  
